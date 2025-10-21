@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (token) {
         try {
-          const { data } = await axios.get('http://localhost:5000/api/auth/me');
+          const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/auth/me`);
           setUser(data);
         } catch (error) {
           console.error('Error loading user:', error);
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/signup', {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/signup`, {
         name,
         email,
         password
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
         email,
         password
       });
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/logout');
+      await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/logout`);
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

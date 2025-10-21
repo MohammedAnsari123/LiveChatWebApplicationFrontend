@@ -25,7 +25,7 @@ export const ChatProvider = ({ children }) => {
   // Initialize socket connection
   useEffect(() => {
     if (user && token) {
-      socketRef.current = io('http://localhost:5000', {
+      socketRef.current = io('${import.meta.env.VITE_BASE_URL}', {
         auth: { token }
       });
 
@@ -78,7 +78,7 @@ export const ChatProvider = ({ children }) => {
   // Fetch all users
   const fetchUsers = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/users');
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/users`);
       setUsers(data);
       
       // Update online status
@@ -92,7 +92,7 @@ export const ChatProvider = ({ children }) => {
   // Fetch messages with a specific user
   const fetchMessages = async (userId) => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/messages/${userId}`);
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/messages/${userId}`);
       setMessages(data);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -102,7 +102,7 @@ export const ChatProvider = ({ children }) => {
   // Send a message
   const sendMessage = async (receiverId, content) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/messages', {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/messages`, {
         receiverId,
         content,
         messageType: 'text'
