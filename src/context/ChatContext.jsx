@@ -25,7 +25,7 @@ export const ChatProvider = ({ children }) => {
   // Initialize socket connection
   useEffect(() => {
     if (user && token) {
-      socketRef.current = io('${import.meta.env.VITE_BASE_URL}', {
+      socketRef.current = io(`${import.meta.env.VITE_BASE_URL}`, {
         auth: { token }
       });
 
