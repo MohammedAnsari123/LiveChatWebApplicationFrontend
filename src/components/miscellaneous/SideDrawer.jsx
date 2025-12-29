@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios from "../../config/api";
 import ProfileModal from "./ProfileModal";
 import { FaSearch, FaBell, FaChevronDown } from "react-icons/fa";
 import { Menu, Transition } from '@headlessui/react'

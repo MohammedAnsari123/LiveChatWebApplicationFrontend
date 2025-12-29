@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
-import axios from 'axios';
+import axios from "../../config/api";
 import { toast } from 'react-toastify';
 import { FaHeart, FaRegHeart, FaComment, FaPaperPlane } from 'react-icons/fa';
 

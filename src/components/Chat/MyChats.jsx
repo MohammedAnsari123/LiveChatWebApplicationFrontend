@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChatState } from '../../context/ChatProvider';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from "../../config/api";
 import { FaPlus } from 'react-icons/fa';
 import GroupChatModal from '../miscellaneous/GroupChatModal';
 import { getSender } from '../../config/ChatLogics';
@@ -45,8 +45,8 @@ const MyChats = ({ fetchAgain }) => {
 
     return (
         <div className={`
-             ${selectedChat ? "hidden" : "flex"} 
-             md:flex flex-col items-center p-3 
+             ${selectedChat ? "hidden" : "flex"}
+             md:flex flex-col items-center p-3
              bg-gray-800 w-full md:w-1/3 rounded-lg border border-gray-700 h-[85vh]
         `}>
             <div className="pb-3 px-3 w-full flex flex-col gap-3">
@@ -120,4 +120,4 @@ const MyChats = ({ fetchAgain }) => {
     )
 }
 
-export default MyChats
+export default MyChats;

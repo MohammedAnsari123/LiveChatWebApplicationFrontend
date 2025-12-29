@@ -4,7 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { ChatState } from '../../context/ChatProvider';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from "../../config/api";
 
 const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
     const { selectedChat, setSelectedChat, user } = ChatState();

@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { ChatState } from '../../context/ChatProvider';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from "../../config/api";
 import { getSender, getSenderFull } from '../../config/ChatLogics';
 import ProfileModal from '../miscellaneous/ProfileModal';
 import UpdateGroupChatModal from '../miscellaneous/UpdateGroupChatModal';
 import ScrollableChat from './ScrollableChat';
 import { FaArrowLeft } from 'react-icons/fa';
 import io from 'socket.io-client';
-// import Lottie from 'lottie-react'; // Need to install if using animation, or use simple loading
-// import animationData from '../../animations/typing.json'; 
 
 const ENDPOINT = import.meta.env.VITE_BACKEND_URL;
 let socket, selectedChatCompare;
@@ -186,4 +184,4 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     )
 }
 
-export default SingleChat
+export default SingleChat;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from "../config/api";
 import { toast } from 'react-toastify';
 import { ChatState } from '../context/ChatProvider';
 import { FaArrowLeft, FaCamera } from 'react-icons/fa';
@@ -26,52 +26,6 @@ const ProfilePage = () => {
         }
     }, [user, navigate]);
 
-    const postDetails = (pics) => {
-        setLoading(true);
-        if (pics === undefined) {
-            toast.warning("Please Select an Image!");
-            setLoading(false);
-            return;
-        }
-
-        if (pics.type === "image/jpeg" || pics.type === "image/png") {
-            const data = new FormData();
-            data.append("file", pics);
-            // Using a placeholder or assuming the user setup works as in Signup. 
-            // Checking how Signup did it - it didn't show cloud name in the viewed file snippet which is odd, 
-            // usually it's hardcoded or env. I'll stick to a generic upload call or check if I missed it.
-            // Wait, I see Signup logic was just `setPic` in the state, but actual cloud upload logic is usually needed.
-            // Let me re-verify Signup. The previous view of Signup showed `postDetails` logic was missing from the snippet I viewed? 
-            // Ah, I viewed `Signup.jsx` but maybe I missed the image upload function implementation details in the snippet or it wasn't there?
-            // Wait, looking at the previous file view of Signup.jsx (Step 380), it DOES NOT have `postDetails` function. 
-            // It only has state `setPic`. But where is the upload logic? 
-            // Use standard cloudinary upload URL.
-
-            fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload", {
-                method: "post",
-                body: data,
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    setPic(data.url.toString());
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setLoading(false);
-                });
-        } else {
-            toast.warning("Please Select an Image (jpeg/png)");
-            setLoading(false);
-        }
-    };
-
-    // Correcting postDetails - I need the ACTUAL cloud name. 
-    // The user's previous code didn't show it. I will use a placeholder and ask user or try to find it.
-    // Actually, I'll check the server .env if possible or just use a placeholder and comment it.
-    // BETTER IDEA: I will just implement the fetch logic assuming standard Cloudinary preset 'chat-app'.
-
-    // RE-WRITING postDetails correctly
     const uploadImage = (pics) => {
         setLoading(true);
         if (pics === undefined) {
@@ -83,15 +37,10 @@ const ProfilePage = () => {
         if (pics.type === "image/jpeg" || pics.type === "image/png") {
             const data = new FormData();
             data.append("file", pics);
-            data.append("upload_preset", "chat-app"); // Using a common preset name
-            data.append("cloud_name", "dgl5z5oqi"); // Using a cloud name if I knew it, otherwise placeholder.
-            // I'll check .env file of server, maybe I can find it there? 
-            // Server .env has CLOUDINARY_CLOUD_NAME=...
-            // But I cannot access server env from client directly securely without exposure.
-            // I will use a generic fetch and ask user to replace if it fails, OR I can try to read .env now.
-
-            // Wait, I can't read .env midway through `write_to_file`.
-            // I will implement standard fetch and assume the preset is configured.
+            // We'll rely on server upload route which has cloudinary configured internally now
+            // Or if previous implementation was direct, we changed it to server. 
+            // In the previous steps we corrected this to use axios.post('/api/upload')
+            // So I will implement that pattern here.
 
             const config = {
                 headers: {

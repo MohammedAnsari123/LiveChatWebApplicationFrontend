@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ChatState } from '../context/ChatProvider';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from "../config/api";
 import { toast } from 'react-toastify';
 import SideDrawer from '../components/miscellaneous/SideDrawer';
 import CreatePost from '../components/Social/CreatePost';

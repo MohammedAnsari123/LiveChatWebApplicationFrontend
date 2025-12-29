@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios from "../../config/api";
 import { FaImage, FaPaperPlane } from 'react-icons/fa';
 
 const CreatePost = ({ fetchPosts }) => {

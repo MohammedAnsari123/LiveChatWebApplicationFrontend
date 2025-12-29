@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { toast } from 'react-toastify'
 import { ChatState } from '../../context/ChatProvider'
-import axios from 'axios'
+import axios from "../../config/api";
 import { RxCross2 } from "react-icons/rx";
 
 const GroupChatModal = ({ children }) => {
