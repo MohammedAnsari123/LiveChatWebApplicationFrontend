@@ -97,87 +97,118 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex flex-col items-center pt-10 px-4">
-            <div className="w-full max-w-2xl bg-gray-800 rounded-lg border border-gray-700 p-8 shadow-xl">
-                <div className="flex items-center mb-8">
-                    <button onClick={() => navigate("/chats")} className="text-gray-400 hover:text-white mr-4">
-                        <FaArrowLeft size={24} />
-                    </button>
-                    <h1 className="text-3xl font-bold text-white">Edit Profile</h1>
-                </div>
-
-                <div className="flex flex-col items-center mb-8">
-                    <div className="relative group cursor-pointer">
-                        <img
-                            src={pic}
-                            alt={name}
-                            className="w-32 h-32 rounded-full object-cover border-4 border-purple-600"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                            <label htmlFor="pic-upload" className="cursor-pointer">
-                                <FaCamera className="text-white text-2xl" />
-                            </label>
-                            <input
-                                id="pic-upload"
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => uploadImage(e.target.files[0])}
-                            />
-                        </div>
-                    </div>
-                    <p className="text-gray-400 mt-2 text-sm">Click to change avatar</p>
-                </div>
-
-                <div className="space-y-4">
-                    <div>
-                        <label className="text-white mb-2 block">Name</label>
-                        <input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full bg-black/20 border border-gray-600 rounded px-4 py-2 text-white outline-none focus:border-purple-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="text-white mb-2 block">Email</label>
-                        <input
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full bg-black/20 border border-gray-600 rounded px-4 py-2 text-white outline-none focus:border-purple-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="text-white mb-2 block">New Password (Optional)</label>
-                        <input
-                            type="password"
-                            placeholder="Leave blank to keep current"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-black/20 border border-gray-600 rounded px-4 py-2 text-white outline-none focus:border-purple-500"
-                        />
-                    </div>
-
-                    {password && (
-                        <div>
-                            <label className="text-white mb-2 block">Confirm New Password</label>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="w-full bg-black/20 border border-gray-600 rounded px-4 py-2 text-white outline-none focus:border-purple-500"
-                            />
-                        </div>
-                    )}
-
+        <div className="min-h-screen bg-slate-900 flex flex-col items-center pt-8 px-4 pb-10">
+            <div className="w-full max-w-2xl">
+                <div className="flex items-center mb-6">
                     <button
-                        onClick={submitHandler}
-                        disabled={loading}
-                        className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded mt-6 transition-colors disabled:opacity-50"
+                        onClick={() => navigate("/chats")}
+                        className="text-slate-400 hover:text-white mr-4 p-2 hover:bg-slate-800 rounded-full transition-all"
                     >
-                        {loading ? "Updating..." : "Update Profile"}
+                        <FaArrowLeft size={20} />
                     </button>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-400 to-indigo-500 bg-clip-text text-transparent">Edit Profile</h1>
+                </div>
+
+                <div className="glass rounded-2xl border border-white/5 p-8 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                    <div className="flex flex-col items-center mb-10 relative z-10">
+                        <div className="relative group cursor-pointer">
+                            <div className="w-36 h-36 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary shadow-lg shadow-primary/20">
+                                <img
+                                    src={pic}
+                                    alt={name}
+                                    className="w-full h-full rounded-full object-cover border-4 border-slate-900"
+                                />
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm m-1">
+                                <label htmlFor="pic-upload" className="cursor-pointer flex flex-col items-center text-white gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                                    <FaCamera className="text-3xl" />
+                                    <span className="text-xs font-medium">Change Photo</span>
+                                </label>
+                                <input
+                                    id="pic-upload"
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => uploadImage(e.target.files[0])}
+                                />
+                            </div>
+                            {loading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/70 rounded-full m-1">
+                                    <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                </div>
+                            )}
+                        </div>
+                        <p className="text-slate-400 mt-4 text-sm font-medium">{name}</p>
+                        <p className="text-slate-500 text-xs">{email}</p>
+                    </div>
+
+                    <div className="space-y-6 relative z-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="text-slate-300 mb-2 block text-sm font-medium ml-1">Full Name</label>
+                                <input
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="input-field bg-slate-900/50 focus:bg-slate-900"
+                                    placeholder="Enter your name"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="text-slate-300 mb-2 block text-sm font-medium ml-1">Email Address</label>
+                                <input
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="input-field bg-slate-900/50 focus:bg-slate-900"
+                                    placeholder="Enter your email"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="pt-4 border-t border-white/5">
+                            <h3 className="text-slate-200 font-semibold mb-4">Change Password</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="text-slate-300 mb-2 block text-sm font-medium ml-1">New Password</label>
+                                    <input
+                                        type="password"
+                                        placeholder="Leave blank to keep current"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="input-field bg-slate-900/50 focus:bg-slate-900"
+                                    />
+                                </div>
+
+                                {password && (
+                                    <div className="animate-in slide-in-from-left-2 fade-in duration-300">
+                                        <label className="text-slate-300 mb-2 block text-sm font-medium ml-1">Confirm New Password</label>
+                                        <input
+                                            type="password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            className="input-field bg-slate-900/50 focus:bg-slate-900"
+                                            placeholder="Retype new password"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={submitHandler}
+                            disabled={loading}
+                            className="btn-primary w-full py-3.5 mt-4 text-base tracking-wide flex justify-center items-center shadow-lg shadow-primary/20"
+                        >
+                            {loading ? (
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                    <span>Updating Profile...</span>
+                                </div>
+                            ) : "Save Changes"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

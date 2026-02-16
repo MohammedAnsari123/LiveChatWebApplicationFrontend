@@ -127,57 +127,83 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         <div className="flex flex-col h-full w-full">
             {selectedChat ? (
                 <>
-                    <div className="text-xl md:text-2xl pb-3 px-2 w-full font-sans flex justify-between items-center text-white border-b border-white/10">
-                        <button
-                            className="md:hidden mr-2 p-2 hover:bg-white/10 rounded-full"
-                            onClick={() => setSelectedChat("")}
-                        >
-                            <FaArrowLeft />
-                        </button>
+                    {/* Chat Header */}
+                    <div className="h-20 px-6 w-full flex justify-between items-center border-b border-white/5 bg-slate-800/20 backdrop-blur-sm">
+                        <div className="flex items-center gap-4">
+                            <button
+                                className="md:hidden p-2 hover:bg-white/10 rounded-full transition-colors text-slate-300"
+                                onClick={() => setSelectedChat("")}
+                            >
+                                <FaArrowLeft />
+                            </button>
+
+                            <div className="flex flex-col">
+                                <h2 className="text-xl font-bold text-slate-100 uppercase tracking-wide">
+                                    {!selectedChat.isGroupChat ? getSender(user, selectedChat.users) : selectedChat.chatName}
+                                </h2>
+                                <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Online
+                                </span>
+                            </div>
+                        </div>
 
                         {!selectedChat.isGroupChat ? (
-                            <>
-                                {getSender(user, selectedChat.users)}
-                                <ProfileModal user={getSenderFull(user, selectedChat.users)} />
-                            </>
+                            <ProfileModal user={getSenderFull(user, selectedChat.users)} />
                         ) : (
-                            <>
-                                {selectedChat.chatName.toUpperCase()}
-                                <UpdateGroupChatModal
-                                    fetchAgain={fetchAgain}
-                                    setFetchAgain={setFetchAgain}
-                                    fetchMessages={fetchMessages}
-                                />
-                            </>
+                            <UpdateGroupChatModal
+                                fetchAgain={fetchAgain}
+                                setFetchAgain={setFetchAgain}
+                                fetchMessages={fetchMessages}
+                            />
                         )}
                     </div>
 
-                    <div className="flex flex-col justify-end p-3 bg-gray-800 w-full h-full rounded-lg overflow-hidden mt-2 relative border border-gray-700">
+                    {/* Chat Messages Area */}
+                    <div className="flex-1 w-full overflow-hidden relative bg-slate-900/40">
+                        {/* Optional watermark/pattern */}
+                        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+
                         {loading ? (
-                            <div className="self-center m-auto w-20 h-20 rounded-full border-4 border-purple-500 border-t-transparent animate-spin"></div>
+                            <div className="w-full h-full flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+                            </div>
                         ) : (
-                            <div className="messages flex flex-col overflow-y-scroll scrollbar-none">
+                            <div className="w-full h-full p-6 overflow-y-scroll custom-scrollbar flex flex-col gap-4">
                                 <ScrollableChat messages={messages} />
                             </div>
                         )}
+                    </div>
 
-                        <div className="mt-3">
-                            {isTyping ? <div className="text-xs text-gray-400 mb-1 ml-2">Typing...</div> : (<></>)}
-                            <input
-                                className="w-full bg-white/5 border border-white/10 text-white rounded-lg p-3 outline-none focus:border-purple-500 transition-colors"
-                                placeholder="Enter a message.."
-                                onChange={typingHandler}
-                                value={newMessage}
-                                onKeyDown={sendMessage}
-                            />
-                        </div>
+                    {/* Chat Input Area */}
+                    <div className="p-4 bg-slate-800/30 border-t border-white/5 backdrop-blur-md">
+                        {isTyping && (
+                            <div className="mb-2 ml-4 flex items-center gap-2">
+                                <div className="flex gap-1">
+                                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></span>
+                                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100"></span>
+                                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200"></span>
+                                </div>
+                                <span className="text-xs text-slate-400 font-medium">Typing...</span>
+                            </div>
+                        )}
+                        <input
+                            className="input-field bg-slate-900/80 border-slate-700/50 focus:bg-slate-900 focus:shadow-lg focus:shadow-primary/10"
+                            placeholder="Type a message..."
+                            onChange={typingHandler}
+                            value={newMessage}
+                            onKeyDown={sendMessage}
+                        />
                     </div>
                 </>
             ) : (
-                <div className="flex items-center justify-center h-full">
-                    <p className="text-3xl pb-3 font-sans text-gray-400">
-                        Click on a user to start chatting
-                    </p>
+                <div className="flex items-center justify-center h-full flex-col gap-6 text-center p-8 opacity-50">
+                    <div className="w-32 h-32 bg-slate-800/50 rounded-full flex items-center justify-center">
+                        <span className="text-6xl grayscale">👋</span>
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-bold text-slate-200 mb-2">Welcome Back!</h2>
+                        <p className="text-slate-400 text-lg">Select a chat to start messaging</p>
+                    </div>
                 </div>
             )}
         </div>

@@ -46,59 +46,64 @@ const MyChats = ({ fetchAgain }) => {
     return (
         <div className={`
              ${selectedChat ? "hidden" : "flex"}
-             md:flex flex-col items-center p-3
-             bg-gray-800 w-full md:w-1/3 rounded-lg border border-gray-700 h-[85vh]
+             md:flex flex-col p-4
+             glass w-full md:w-1/3 rounded-2xl border border-white/5 h-full
         `}>
-            <div className="pb-3 px-3 w-full flex flex-col gap-3">
+            <div className="pb-4 px-2 w-full flex flex-col gap-4">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-2xl text-white font-semibold">My Chats</h2>
+                    <h2 className="text-2xl text-slate-100 font-bold tracking-tight">Chats</h2>
                     {activeTab === 'group' && (
                         <GroupChatModal>
-                            <button className="flex items-center gap-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 px-3 py-2 rounded-md transition-all text-sm border border-purple-500/30">
-                                New Group <FaPlus />
+                            <button className="flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-4 py-2 rounded-xl transition-all text-sm font-medium">
+                                <FaPlus /> New Group
                             </button>
                         </GroupChatModal>
                     )}
                 </div>
 
                 {/* Tabs */}
-                <div className="flex w-full bg-gray-900 rounded-lg p-1">
+                <div className="flex w-full bg-slate-900/50 rounded-xl p-1.5 border border-white/5">
                     <button
                         onClick={() => setActiveTab('single')}
-                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all
-                            ${activeTab === 'single' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}
+                        className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-300
+                            ${activeTab === 'single' ? 'bg-slate-800 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'}
                         `}
                     >
-                        Single Chat
+                        Direct Messages
                     </button>
                     <button
                         onClick={() => setActiveTab('group')}
-                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all
-                            ${activeTab === 'group' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700'}
+                        className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-300
+                            ${activeTab === 'group' ? 'bg-slate-800 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'}
                         `}
                     >
-                        Group Chat
+                        Groups
                     </button>
                 </div>
             </div>
 
-            <div className="flex flex-col w-full h-full overflow-y-hidden bg-gray-900/50 rounded-lg p-2">
+            <div className="flex flex-col w-full h-full overflow-hidden">
                 {chats ? (
-                    <div className="overflow-y-auto space-y-2 h-full scrollbar-none">
+                    <div className="overflow-y-auto space-y-2 h-full pr-2 custom-scrollbar">
                         {filteredChats.map((chat) => (
                             <div
                                 key={chat._id}
                                 onClick={() => setSelectedChat(chat)}
-                                className={`cursor-pointer px-4 py-3 rounded-lg transition-all ${selectedChat === chat ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                                className={`cursor-pointer px-5 py-4 rounded-xl transition-all duration-300 border border-transparent
+                                    ${selectedChat === chat
+                                        ? 'bg-primary/10 border-primary/20 shadow-lg shadow-primary/5'
+                                        : 'hover:bg-slate-800/50 hover:border-white/5 text-slate-300'
+                                    }
+                                `}
                             >
-                                <h3 className="font-medium">
+                                <h3 className={`font-semibold ${selectedChat === chat ? 'text-primary' : 'text-slate-200'}`}>
                                     {!chat.isGroupChat
                                         ? getSender(loggedUser, chat.users)
                                         : chat.chatName}
                                 </h3>
                                 {chat.latestMessage && (
-                                    <p className="text-xs opacity-70 mt-1 truncate">
-                                        <b>{chat.latestMessage.sender.name}: </b>
+                                    <p className={`text-xs mt-1 truncate ${selectedChat === chat ? 'text-primary/70' : 'text-slate-500'}`}>
+                                        <b className="font-medium">{chat.latestMessage.sender.name}: </b>
                                         {chat.latestMessage.content.length > 50
                                             ? chat.latestMessage.content.substring(0, 51) + "..."
                                             : chat.latestMessage.content}
@@ -107,13 +112,20 @@ const MyChats = ({ fetchAgain }) => {
                             </div>
                         ))}
                         {filteredChats.length === 0 && (
-                            <div className="text-center text-gray-500 mt-4 text-sm">
-                                No {activeTab} chats found.
+                            <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-4">
+                                <div className="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center">
+                                    <span className="text-2xl">💬</span>
+                                </div>
+                                <p className="text-sm font-medium">No {activeTab} chats yet</p>
                             </div>
                         )}
                     </div>
                 ) : (
-                    <div className="flex justify-center items-center h-full text-gray-400">Loading Chats...</div>
+                    <div className="flex flex-col gap-4 p-4 animate-pulse">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="h-20 bg-slate-800/30 rounded-xl w-full"></div>
+                        ))}
+                    </div>
                 )}
             </div>
         </div>

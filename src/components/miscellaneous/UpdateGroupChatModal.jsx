@@ -166,70 +166,90 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-gray-900 border border-white/10 p-6 text-left align-middle shadow-xl transition-all">
-                                    <Dialog.Title as="h3" className="text-2xl font-medium leading-6 text-white text-center mb-6">
+                                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl glass-modal p-8 text-left align-middle shadow-2xl transition-all border border-white/10 relative">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                                    <Dialog.Title as="h3" className="text-2xl font-bold leading-6 text-white text-center mb-8 relative z-10">
                                         {selectedChat.chatName}
                                     </Dialog.Title>
 
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {selectedChat.users.map(u => (
-                                            <div key={u._id} className="flex items-center gap-1 bg-purple-600 px-2 py-1 rounded-full text-sm text-white">
-                                                {u.name}
-                                                <RxCross2 className="cursor-pointer" onClick={() => handleRemove(u)} />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex gap-2">
-                                            <input
-                                                placeholder="Rename Chat"
-                                                value={groupChatName}
-                                                onChange={(e) => setGroupChatName(e.target.value)}
-                                                className="flex-1 bg-black/20 border border-gray-600 rounded px-3 py-2 text-white outline-none focus:border-purple-500"
-                                            />
-                                            <button
-                                                onClick={handleRename}
-                                                disabled={renameLoading}
-                                                className="bg-green-600 hover:bg-green-700 text-white px-4 rounded"
-                                            >
-                                                {renameLoading ? "Updating..." : "Update"}
-                                            </button>
+                                    <div className="relative z-10">
+                                        <div className="flex flex-wrap gap-2 mb-6 min-h-[30px]">
+                                            {selectedChat.users.map(u => (
+                                                <div key={u._id} className="flex items-center gap-1 bg-gradient-to-r from-primary to-secondary pl-3 pr-2 py-1 rounded-full text-xs font-bold text-white shadow-lg shadow-primary/20">
+                                                    {u.name}
+                                                    <RxCross2
+                                                        className="cursor-pointer hover:bg-white/20 rounded-full p-0.5"
+                                                        size={16}
+                                                        onClick={() => handleRemove(u)}
+                                                    />
+                                                </div>
+                                            ))}
                                         </div>
 
-                                        <input
-                                            placeholder="Add User to group"
-                                            onChange={(e) => handleSearch(e.target.value)}
-                                            className="w-full bg-black/20 border border-gray-600 rounded px-3 py-2 text-white outline-none focus:border-purple-500"
-                                        />
+                                        <div className="space-y-6">
+                                            <div className="flex gap-3 items-end">
+                                                <div className="flex-1">
+                                                    <label className="text-slate-300 text-sm font-medium ml-1 mb-1 block">Rename Group</label>
+                                                    <input
+                                                        placeholder="New Group Name"
+                                                        value={groupChatName}
+                                                        onChange={(e) => setGroupChatName(e.target.value)}
+                                                        className="input-field bg-slate-900/50 focus:bg-slate-900 w-full"
+                                                    />
+                                                </div>
+                                                <button
+                                                    onClick={handleRename}
+                                                    disabled={renameLoading}
+                                                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-lg shadow-emerald-500/20 mb-[1px]"
+                                                >
+                                                    {renameLoading ? "..." : "Update"}
+                                                </button>
+                                            </div>
 
-                                        <div className="max-h-60 overflow-y-auto space-y-2">
-                                            {loading ? <div className="text-white">Loading...</div> : (
-                                                searchResult?.slice(0, 4).map(user => (
-                                                    <div
-                                                        key={user._id}
-                                                        onClick={() => handleAddUser(user)}
-                                                        className="flex items-center gap-3 bg-white/5 hover:bg-white/10 p-2 rounded cursor-pointer"
-                                                    >
-                                                        <img src={user.pic} className="w-8 h-8 rounded-full" />
-                                                        <div>
-                                                            <p className="text-white text-sm">{user.name}</p>
-                                                            <p className="text-gray-400 text-xs">{user.email}</p>
-                                                        </div>
+                                            <div>
+                                                <label className="text-slate-300 text-sm font-medium ml-1 mb-1 block">Add Member</label>
+                                                <input
+                                                    placeholder="Search user to add..."
+                                                    onChange={(e) => handleSearch(e.target.value)}
+                                                    className="input-field bg-slate-900/50 focus:bg-slate-900 w-full"
+                                                />
+                                            </div>
+
+                                            {loading ? (
+                                                <div className="flex justify-center py-2">
+                                                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                                </div>
+                                            ) : (
+                                                searchResult?.length > 0 && (
+                                                    <div className="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar bg-slate-900/30 p-2 rounded-xl border border-white/5">
+                                                        {searchResult?.slice(0, 4).map(user => (
+                                                            <div
+                                                                key={user._id}
+                                                                onClick={() => handleAddUser(user)}
+                                                                className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-white/5 transition-colors group"
+                                                            >
+                                                                <img src={user.pic} className="w-8 h-8 rounded-full object-cover border border-slate-600 group-hover:border-primary transition-colors" />
+                                                                <div>
+                                                                    <p className="text-slate-200 text-sm font-medium group-hover:text-primary transition-colors">{user.name}</p>
+                                                                    <p className="text-slate-500 text-xs">{user.email}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))
+                                                )
                                             )}
                                         </div>
-                                    </div>
 
-                                    <div className="mt-8 flex justify-end">
-                                        <button
-                                            type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none"
-                                            onClick={() => handleRemove(user)}
-                                        >
-                                            Leave Group
-                                        </button>
+                                        <div className="mt-8 flex justify-end pt-4 border-t border-white/5">
+                                            <button
+                                                type="button"
+                                                className="inline-flex justify-center rounded-xl border border-transparent bg-rose-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-rose-700 focus:outline-none shadow-lg shadow-rose-600/20 transition-all hover:scale-105"
+                                                onClick={() => handleRemove(user)}
+                                            >
+                                                Leave Group
+                                            </button>
+                                        </div>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>

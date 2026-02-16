@@ -15,7 +15,7 @@ const Signup = () => {
     const submitHandler = async () => {
         setLoading(true);
         if (!name || !email || !password || !confirmpassword) {
-            toast.warning("Please Fill all the Feilds");
+            toast.warning("Please Fill all the Fields");
             setLoading(false);
             return;
         }
@@ -43,59 +43,65 @@ const Signup = () => {
             setLoading(false);
             navigate("/chats");
         } catch (error) {
-            toast.error(error.response?.data?.message || "Error Occured");
+            toast.error(error.response?.data?.message || "Error Occurred");
             setLoading(false);
         }
     };
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="flex flex-col">
-                <label className="text-gray-300 text-sm mb-1">Name</label>
+        <div className="flex flex-col gap-5">
+            <div className="space-y-2">
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider ml-1">Name</label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-black/20 border border-gray-600 rounded p-2 text-white focus:border-purple-500 focus:outline-none transition-colors"
+                    className="input-field"
                     placeholder="Enter your name"
                 />
             </div>
-            <div className="flex flex-col">
-                <label className="text-gray-300 text-sm mb-1">Email</label>
+            <div className="space-y-2">
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider ml-1">Email Address</label>
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-black/20 border border-gray-600 rounded p-2 text-white focus:border-purple-500 focus:outline-none transition-colors"
+                    className="input-field"
                     placeholder="Enter your email"
                 />
             </div>
-            <div className="flex flex-col">
-                <label className="text-gray-300 text-sm mb-1">Password</label>
+            <div className="space-y-2">
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider ml-1">Password</label>
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-black/20 border border-gray-600 rounded p-2 text-white focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="Enter your password"
+                    className="input-field"
+                    placeholder="Create a password"
                 />
             </div>
-            <div className="flex flex-col">
-                <label className="text-gray-300 text-sm mb-1">Confirm Password</label>
+            <div className="space-y-2">
+                <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider ml-1">Confirm Password</label>
                 <input
                     type="password"
                     value={confirmpassword}
                     onChange={(e) => setConfirmpassword(e.target.value)}
-                    className="bg-black/20 border border-gray-600 rounded p-2 text-white focus:border-purple-500 focus:outline-none transition-colors"
+                    className="input-field"
                     placeholder="Confirm your password"
                 />
             </div>
+
             <button
                 onClick={submitHandler}
                 disabled={loading}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded transition-all mt-4 disabled:opacity-50"
+                className="btn-primary w-full mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                {loading ? "Loading..." : "Sign Up"}
+                {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Loading...
+                    </span>
+                ) : "Create Account"}
             </button>
         </div>
     );

@@ -40,24 +40,30 @@ const SocialPage = () => {
     }, [user, navigate]);
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%" }} className="bg-slate-900 min-h-screen">
             {user && <SideDrawer />}
-            <div className="flex justify-center p-4 bg-gray-900 min-h-[92vh]">
-                <div className="w-full max-w-2xl">
+            <div className="flex justify-center p-4 min-h-[92vh]">
+                <div className="w-full max-w-2xl flex flex-col gap-6">
                     <CreatePost fetchPosts={fetchPosts} />
 
                     {loading ? (
                         <div className="flex justify-center mt-10">
-                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                            <div className="relative w-16 h-16">
+                                <div className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-slate-700"></div>
+                                <div className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+                            </div>
                         </div>
                     ) : (
-                        <div className="space-y-4">
+                        <div className="space-y-6 pb-10">
                             {posts.map((post) => (
                                 <PostItem key={post._id} post={post} />
                             ))}
                             {posts.length === 0 && (
-                                <div className="text-center text-gray-500 mt-10">
-                                    No posts yet. Be the first to share something!
+                                <div className="text-center text-slate-500 mt-10 flex flex-col items-center gap-4">
+                                    <div className="w-20 h-20 bg-slate-800/50 rounded-full flex items-center justify-center text-4xl grayscale">
+                                        📰
+                                    </div>
+                                    <p className="text-lg font-medium">No posts yet. Be the first to share something!</p>
                                 </div>
                             )}
                         </div>

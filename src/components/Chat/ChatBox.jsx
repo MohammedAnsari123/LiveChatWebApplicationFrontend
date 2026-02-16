@@ -8,8 +8,8 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
         <div
             className={`
               ${selectedChat ? "flex" : "hidden"} 
-              md:flex items-center flex-col p-3 
-              bg-gray-800 w-full md:w-2/3 rounded-lg border border-gray-700 h-[85vh]
+              md:flex items-center flex-col 
+              glass w-full md:w-2/3 rounded-2xl border border-white/5 h-full overflow-hidden
            `}
         >
             <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
